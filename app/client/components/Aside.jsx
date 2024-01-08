@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { days } from '../app/localdata'
+import { days } from '../utils/localdata'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
