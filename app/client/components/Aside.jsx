@@ -1,11 +1,23 @@
+'use client'
+
+import { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { days } from '../utils/localdata'
+import { useContextHook } from '../context/contextHook'
+
+import { daysList } from '../utils/localdata' // a eliminar
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function AsideMenu() {
+
+    const { selectedDay, setSelectedDay, seasons } = useContextHook()
+    const [ days, setDays ] = useState(daysList)
+    const [ month, setMoth ] = useState(selectedDay.toLocaleString('default', { month: 'long' }))
+    const [ year, setYear ] = useState(selectedDay.getFullYear())
+    const [ season, setSeason ] = useState(seasons[month])
+
     return(
         <aside className="hidden w-1/2 max-w-md flex-none border-l border-gray-100 px-8 py-10 md:block">
         <div className="flex items-center text-center text-gray-900">
@@ -16,7 +28,10 @@ export default function AsideMenu() {
             <span className="sr-only">Previous month</span>
             <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
           </button>
-          <div className="flex-auto text-sm font-semibold">January 2022</div>
+          <div className="flex-auto text-sm font-semibold">
+            <p className={"uppercase"}>{season.es}</p>
+            <p className={"uppercase"} >{month} {year}</p>
+          </div>
           <button
             type="button"
             className="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
@@ -26,13 +41,13 @@ export default function AsideMenu() {
           </button>
         </div>
         <div className="mt-6 grid grid-cols-7 text-center text-xs leading-6 text-gray-500">
-          <div>M</div>
-          <div>T</div>
-          <div>W</div>
-          <div>T</div>
-          <div>F</div>
-          <div>S</div>
-          <div>S</div>
+          <div>Dom</div>
+          <div>Lun</div>
+          <div>Mar</div>
+          <div>Mie</div>
+          <div>Jue</div>
+          <div>Vie</div>
+          <div>Sab</div>
         </div>
         <div className="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
           {days.map((day, dayIdx) => (
