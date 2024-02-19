@@ -1,16 +1,32 @@
 'use client'
-import { Fragment, useEffect, useRef } from 'react'
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
-import { Menu, Transition } from '@headlessui/react'
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+import {  useEffect, useRef, useState } from 'react'
+import { useContextHook } from '../../context/contextHook'
 
 export default function WeekCalendar() {
   const container = useRef(null)
   const containerNav = useRef(null)
   const containerOffset = useRef(null)
+
+  const {
+    selectedDay
+  } = useContextHook()
+
+  const [dateView, setWeekView ] = useState([])
+
+  function resDays(date, days) {
+    return new Date(date.getTime() - (days * 24 * 60 * 60 * 1000));
+  }
+
+  const calcWeekView = (lastWeekDay) => {
+    const weekDates = []
+    const arrayOf7num = Array.from({ length: 7 }, (v, i) => i)
+    for (let day = 7; day > 0; day--) {
+      const leftDay = arrayOf7num[day-1]
+      const weekDay = resDays(lastWeekDay, leftDay)
+      weekDates.push(weekDay)
+    }
+    return weekDates
+  }
 
   useEffect(() => {
     // Set the container scroll position based on the current time.
@@ -18,8 +34,10 @@ export default function WeekCalendar() {
     container.current.scrollTop =
       ((container.current.scrollHeight - containerNav.current.offsetHeight - containerOffset.current.offsetHeight) *
         currentMinute) /
-      1440
+      1440;
   }, [])
+
+  useEffect(()=> {setWeekView(calcWeekView(selectedDay))}, [selectedDay])
 
   return (
     <div className="flex h-full flex-col">
@@ -58,45 +76,9 @@ export default function WeekCalendar() {
 
             <div className="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
               <div className="col-end-1 w-14" />
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Mon <span className="items-center justify-center font-semibold text-gray-900">10</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Tue <span className="items-center justify-center font-semibold text-gray-900">11</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span className="flex items-baseline">
-                  Wed{' '}
-                  <span className="ml-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white">
-                    12
-                  </span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Thu <span className="items-center justify-center font-semibold text-gray-900">13</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Fri <span className="items-center justify-center font-semibold text-gray-900">14</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Sat <span className="items-center justify-center font-semibold text-gray-900">15</span>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Sun <span className="items-center justify-center font-semibold text-gray-900">16</span>
-                </span>
-              </div>
+              <DayColumn weekDates={dateView} />
             </div>
+
           </div>
           <div className="flex flex-auto">
             <div className="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-gray-100" />
@@ -310,4 +292,22 @@ export default function WeekCalendar() {
       </div>
     </div>
   )
+}
+
+function DayColumn({weekDates}) {
+  const {
+    selectedDay
+  } = useContextHook()
+
+  const comparedDay = (day) => {
+    return selectedDay.getTime() === day.getTime()
+  }
+
+  return weekDates.map( wd =>
+        <div key={wd} className="flex items-center justify-center py-3">
+          <span className="capitalize flex gap-2 items-center">
+           { wd.toLocaleDateString('es-ES', { weekday: 'short' })}
+           <span className={ comparedDay(wd) ? "flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white" : "items-center justify-center font-semibold text-gray-900"} >{wd.getDate()}</span>
+          </span>
+        </div>)
 }

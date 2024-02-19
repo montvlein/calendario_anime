@@ -38,12 +38,12 @@ export default function CalendarHeader() {
             <button
               type="button"
               onClick={()=>{setSelectedDay(new Date())}}
-              className="px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
+              className="rounded-md h-full px-3.5 text-sm font-semibold text-gray-900 hover:bg-indigo-100 hover:text-indigo-600 focus:relative md:block"
             >
               Hoy
             </button>
           </div>
-          <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+          <div className="hidden relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
             <button
               type="button"
               className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"

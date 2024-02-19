@@ -12,7 +12,6 @@ export default function AsideMenu() {
     const [value, setValue] = useState(dayjs(selectedDay));
 
     const handleChange = (newValue) => {
-      // setValue(newValue)
       const date =  new Date(new Date(newValue.$y, newValue.$M, newValue.$D))
       setSelectedDay(date)
     }
