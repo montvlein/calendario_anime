@@ -1,7 +1,13 @@
 'use client'
 import { useEffect, useRef, Fragment } from 'react'
+import { useContextHook } from '../../context/contextHook'
+import Hours from './hours'
 
 export default function DayCalendar() {
+
+  const {
+    selectedDay
+  } = useContextHook()
 
   const container = useRef(null)
   const containerNav = useRef(null)
@@ -29,51 +35,12 @@ export default function DayCalendar() {
     <div ref={container} className="flex flex-auto flex-col overflow-auto">
       <div
         ref={containerNav}
-        className="sticky top-0 z-10 grid flex-none grid-cols-7 bg-white text-xs text-gray-500 shadow ring-1 ring-black ring-opacity-5 md:hidden"
+        className="sticky top-0 z-10 p-4 grid flex-none grid-cols-7 bg-gray-50 text-center text-gray-500 shadow ring-1 ring-black ring-opacity-5 hidden"
       >
-        <button type="button" className="flex flex-col items-center pb-1.5 pt-3">
-          <span>W</span>
-          {/* Default: "text-gray-900", Selected: "bg-gray-900 text-white", Today (Not Selected): "text-indigo-600", Today (Selected): "bg-indigo-600 text-white" */}
-          <span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
-            19
-          </span>
-        </button>
-        <button type="button" className="flex flex-col items-center pb-1.5 pt-3">
-          <span>T</span>
-          <span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-indigo-600">
-            20
-          </span>
-        </button>
-        <button type="button" className="flex flex-col items-center pb-1.5 pt-3">
-          <span>F</span>
-          <span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
-            21
-          </span>
-        </button>
-        <button type="button" className="flex flex-col items-center pb-1.5 pt-3">
-          <span>S</span>
-          <span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 text-base font-semibold text-white">
-            22
-          </span>
-        </button>
-        <button type="button" className="flex flex-col items-center pb-1.5 pt-3">
-          <span>S</span>
-          <span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
-            23
-          </span>
-        </button>
-        <button type="button" className="flex flex-col items-center pb-1.5 pt-3">
-          <span>M</span>
-          <span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
-            24
-          </span>
-        </button>
-        <button type="button" className="flex flex-col items-center pb-1.5 pt-3">
-          <span>T</span>
-          <span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
-            25
-          </span>
-        </button>
+        <span className="capitalize flex gap-2 items-center">
+          { selectedDay.toLocaleDateString('es-ES', { weekday: 'long' })}
+          <span className="items-center justify-center font-semibold text-gray-900">{selectedDay.getDate()}</span>
+        </span>
       </div>
       <div className="flex w-full flex-auto">
         <div className="w-14 flex-none bg-white ring-1 ring-gray-100" />
@@ -84,16 +51,7 @@ export default function DayCalendar() {
             style={{ gridTemplateRows: 'repeat(48, minmax(3.5rem, 1fr))' }}
           >
             <div ref={containerOffset} className="row-end-1 h-7"></div>
-            {hours.map((hour, i) => (
-                <Fragment key={i}>
-                  <div key={`text-${i}`}>
-                    <div className="sticky left-0 -ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                      {((hour + 11) % 12 + 1).toString() + ' ' + (hour < 12 ? 'AM' : 'PM')}
-                    </div>
-                  </div>
-                  <div key={`placeholder-${i}`} />
-                </Fragment>
-              ))}
+            <Hours />
           </div>
           <DayEvents />
         </div>
