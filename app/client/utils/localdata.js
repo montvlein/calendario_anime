@@ -1,5 +1,5 @@
 
-export const days = [
+export const daysList = [
     { date: '2021-12-27' },
     { date: '2021-12-28' },
     { date: '2021-12-29' },

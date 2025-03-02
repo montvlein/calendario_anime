@@ -1,4 +1,8 @@
 'use client'
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 import CalendarHeader from '@components/Header'
 import AsideMenu from '@components/Aside'
 import { useContextHook } from '../client/context/contextHook';
@@ -11,6 +15,7 @@ export default function Home() {
 
   return (
     <main className="flex h-screen flex-col">
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <CalendarHeader />
       <div className="isolate flex flex-auto overflow-hidden bg-white divide-x">
         <AsideMenu />
@@ -18,6 +23,7 @@ export default function Home() {
           <Calendar calendarType={selectedViewType} />
         </section>
       </div>
+    </LocalizationProvider>
     </main>
   )
 }

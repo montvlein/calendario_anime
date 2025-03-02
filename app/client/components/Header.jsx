@@ -14,17 +14,16 @@ export default function CalendarHeader() {
   const {
     calendarTypeList,
     setView, selectedViewType,
-    selectedDay, getWeekDay
+    selectedDay, setSelectedDay,
+    getWeekDay, seasons
   } =  useContextHook();
 
     return (
     <header className="flex flex-none items-center justify-between border-b border-gray-200 px-6 py-4">
         <div>
           <h1 className="text-base font-semibold leading-6 text-gray-900 dark:text-gray-200">
-            <time dateTime="2022-01-22" className="sm:hidden">
-              Jan 22, 2022
-            </time>
-            <time dateTime={selectedDay} className="hidden sm:inline">
+            <p className={"uppercase my-2"}>Temporada {seasons[selectedDay.toLocaleString('default', { month: 'long' })].es}</p>
+            <time dateTime={selectedDay} className="">
               { selectedDay.toLocaleDateString('es-AR', {
                 year: 'numeric',
                 month: 'long',
@@ -34,20 +33,23 @@ export default function CalendarHeader() {
           </h1>
           <p className="mt-1 text-sm text-gray-500">{ getWeekDay }</p>
         </div>
-        <div className="flex items-center">
-          <div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
+        <div className="flex items-center gap-4 invisible">
+          <div className="rounded-md bg-white shadow-sm flex justify-center self-stretch hidden md:inline" >
+            <button
+              type="button"
+              onClick={()=>{setSelectedDay(new Date())}}
+              className="rounded-md h-full px-3.5 text-sm font-semibold text-gray-900 hover:bg-indigo-100 hover:text-indigo-600 focus:relative md:block"
+            >
+              Hoy
+            </button>
+          </div>
+          <div className="hidden relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
             <button
               type="button"
               className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
             >
               <span className="sr-only">Previous day</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-            </button>
-            <button
-              type="button"
-              className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
-            >
-              Hoy
             </button>
             <span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
             <button
@@ -58,7 +60,7 @@ export default function CalendarHeader() {
               <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
-          <div className="hidden md:ml-4 md:flex md:items-center">
+          <div className="hidden md:flex md:items-center">
             <Menu as="div" className="relative">
               <Menu.Button
                 type="button"
