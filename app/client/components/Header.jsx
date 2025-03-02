@@ -22,7 +22,7 @@ export default function CalendarHeader() {
     <header className="flex flex-none items-center justify-between border-b border-gray-200 px-6 py-4">
         <div>
           <h1 className="text-base font-semibold leading-6 text-gray-900 dark:text-gray-200">
-            <p className={"uppercase my-2"}>Temporada {seasons[selectedDay.toLocaleString('default', { month: 'long' })].es}</p>
+            <p className={"uppercase my-2"}>Temporada {seasons[selectedDay.toLocaleString('default', { month: 'long' })]?.es || "Desconocida"}</p>
             <time dateTime={selectedDay} className="">
               { selectedDay.toLocaleDateString('es-AR', {
                 year: 'numeric',
