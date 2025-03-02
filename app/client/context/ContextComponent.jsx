@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import CalendarContext from './contextHook'
+import { useLatestAnimeList } from '../hooks/getLastestAnimeList'
 
 export function AppContext({ children }) {
 
@@ -37,6 +38,8 @@ export function AppContext({ children }) {
   const weekday = ["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
   const getWeekDay = weekday[selectedDay.getDay()]
 
+  const { animeList, loading, error } = useLatestAnimeList()
+
   return (
     <CalendarContext.Provider value={{
         calendarTypes, calendarTypeList,
@@ -44,7 +47,8 @@ export function AppContext({ children }) {
         selectedDay, setSelectedDay, getWeekDay,
         seasons,
         selectedWeek, setSelectedWeek,
-        selectedSeason, setSelectedSeason
+        selectedSeason, setSelectedSeason,
+        animeList, loading, error
      }}>
       { children }
     </CalendarContext.Provider>

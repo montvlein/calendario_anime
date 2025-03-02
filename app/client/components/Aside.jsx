@@ -21,7 +21,7 @@ export default function AsideMenu() {
     }, [selectedDay])
 
     return(
-        <aside className="hidden w-1/2 max-w-md text-gray-500 flex-none bg-gray-50 border-l border-gray-100 px-8 py-10 md:block">
+        <aside className="hidden w-1/2 max-w-md text-gray-500 flex-none bg-gray-50 border-l border-gray-100 px-8 py-10 ">
         <DateCalendar
           showDaysOutsideCurrentMonth
           value={value} onChange={handleChange}

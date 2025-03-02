@@ -33,7 +33,7 @@ export default function CalendarHeader() {
           </h1>
           <p className="mt-1 text-sm text-gray-500">{ getWeekDay }</p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 invisible">
           <div className="rounded-md bg-white shadow-sm flex justify-center self-stretch hidden md:inline" >
             <button
               type="button"
