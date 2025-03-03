@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 export default function Home() {
     const { animeList, loading, error } = useLatestAnimeList()
+
     const [mostRecentAnime, setMostRecentAnime] = useState(0)
 
     const resDays = (date, days) => {
@@ -33,7 +34,7 @@ export default function Home() {
 
     const dateView = calcWeekView(new Date())
 
-    if (loading) return <div>Loading...</div>
+    if (loading) return <TableSkeleton />
     if (error) return <div>Error: {error}</div>
 
     return (
@@ -93,5 +94,24 @@ function EventCard({ event }) {
                 <span className="font-semibold line-clamp-3">{event.title}</span> <span className="text-gray-300">cap. {event.chapter}</span>
             </p>
         </a>
+    )
+}
+
+function TableSkeleton() {
+    return (
+
+        <div class="h-screen w-full bg-gray-50 dark:bg-gray-800 overflow-hidden p-2">
+            <div className='pt-2 pb-4 grid grid-cols-7 gap-4 items-center justify-center place-items-center'>
+                {Array.from({ length: 7 }, (v, i) => (
+                    <div className='animate-pulse w-20 h-4 rounded-lg bg-gray-200 dark:bg-gray-700'/>
+                ))}
+            </div>
+            <div className='grid grid-cols-7 grid-rows-4 gap-4 items-center justify-center place-items-center'>
+                {Array.from({ length: 28 }, (v, i) => (
+                    <div className='animate-pulse w-[170px] h-[140px] rounded-lg bg-gray-200 dark:bg-gray-700'/>
+                ))}
+            </div>
+        </div>
+
     )
 }
